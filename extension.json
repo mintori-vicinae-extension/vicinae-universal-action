@@ -1,0 +1,24 @@
+{
+  "$schema": "https://raw.githubusercontent.com/vicinaehq/vicinae/refs/heads/main/extra/schemas/extension.json",
+  "name": "universal-action",
+  "title": "Universal Action",
+  "description": "Context-aware smart actions based on clipboard content",
+  "icon": "assets/icon.png",
+  "author": "mintori",
+  "license": "MIT",
+  "platforms": ["Linux"],
+  "categories": ["Productivity", "Developer Tools"],
+  "commands": [
+    {
+      "name": "index",
+      "title": "Universal Action",
+      "subtitle": "Smart clipboard actions",
+      "description": "Inspect clipboard and trigger matching actions",
+      "mode": "view"
+    }
+  ],
+  "preferences": [],
+  "dependencies": {
+    "@vicinae/api": "^0.22.2"
+  }
+}

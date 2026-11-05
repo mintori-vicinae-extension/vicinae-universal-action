@@ -1,0 +1,21 @@
+{
+  "name": "vicinae-universal-action",
+  "version": "1.0.0",
+  "description": "Universal Action for Vicinae",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "tsc --noEmit && esbuild src/index.tsx --bundle --platform=node --target=node22 --external:@vicinae/api --external:react --external:react/jsx-runtime --outfile=dist/index.js",
+    "install:vicinae": "npm run build && mkdir -p /home/mintori/.local/share/vicinae/extensions/universal-action/assets && cp dist/index.js /home/mintori/.local/share/vicinae/extensions/universal-action/index.js && cp extension.json /home/mintori/.local/share/vicinae/extensions/universal-action/package.json && (cp assets/* /home/mintori/.local/share/vicinae/extensions/universal-action/assets/ || true)"
+  },
+  "dependencies": {
+    "@vicinae/api": "^0.22.2",
+    "cronstrue": "^3.38.0",
+    "yaml": "^2.9.1"
+  },
+  "devDependencies": {
+    "@types/node": "20.x",
+    "@types/react": "^19.1.17",
+    "esbuild": "^0.25.0",
+    "typescript": "^5.4.0"
+  }
+}
