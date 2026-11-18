@@ -5,7 +5,7 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "build": "tsc --noEmit && esbuild src/index.tsx --bundle --platform=node --target=node22 --external:@vicinae/api --external:react --external:react/jsx-runtime --outfile=dist/index.js",
-    "install:vicinae": "npm run build && mkdir -p /home/mintori/.local/share/vicinae/extensions/universal-action/assets && cp dist/index.js /home/mintori/.local/share/vicinae/extensions/universal-action/index.js && cp extension.json /home/mintori/.local/share/vicinae/extensions/universal-action/package.json && (cp assets/* /home/mintori/.local/share/vicinae/extensions/universal-action/assets/ || true)"
+    "install:vicinae": "npm run build && mkdir -p $HOME/.local/share/vicinae/extensions/universal-action/assets && cp dist/index.js $HOME/.local/share/vicinae/extensions/universal-action/index.js && cp extension.json $HOME/.local/share/vicinae/extensions/universal-action/package.json && (cp assets/* $HOME/.local/share/vicinae/extensions/universal-action/assets/ || true)"
   },
   "dependencies": {
     "@vicinae/api": "^0.22.2",

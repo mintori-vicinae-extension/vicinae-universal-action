@@ -70,3 +70,47 @@ export function isVideoUrl(url: string): boolean {
 
   return false;
 }
+
+/**
+ * Check if URL is a GitHub blob or Gist URL that can be converted to raw format
+ */
+export function isGitHubConvertibleUrl(url: string): boolean {
+  return toGitHubRawUrl(url) !== null;
+}
+
+/**
+ * Convert GitHub blob or Gist URL to raw.githubusercontent.com or gist.githubusercontent.com
+ */
+export function toGitHubRawUrl(url: string): string | null {
+  if (!isValidUrl(url)) return null;
+
+  try {
+    const parsed = new URL(url.trim());
+    const host = parsed.hostname.toLowerCase();
+
+    // 1. github.com / www.github.com
+    if (host === "github.com" || host === "www.github.com") {
+      // Format: /:owner/:repo/blob/:branchOrCommit/:filePath...
+      // Example: /ant-design/ant-design/blob/master/package.json
+      const match = parsed.pathname.match(/^\/([^/]+)\/([^/]+)\/blob\/(.+)$/);
+      if (match) {
+        const [, owner, repo, rest] = match;
+        return `https://raw.githubusercontent.com/${owner}/${repo}/${rest}${parsed.search}`;
+      }
+    }
+
+    // 2. gist.github.com
+    if (host === "gist.github.com") {
+      // Format: /:owner/:gistId or /:owner/:gistId/raw/...
+      // Example: /user/123456789 -> https://gist.githubusercontent.com/user/123456789/raw
+      const match = parsed.pathname.match(/^\/([^/]+)\/([a-f0-9]+)(?:\/raw(?:\/.*)?)?$/i);
+      if (match) {
+        const [, owner, gistId] = match;
+        return `https://gist.githubusercontent.com/${owner}/${gistId}/raw${parsed.search}`;
+      }
+    }
+  } catch {}
+
+  return null;
+}
+

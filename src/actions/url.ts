@@ -1,6 +1,6 @@
 import { ActionDefinition } from "../types";
 import { Icon } from "@vicinae/api";
-import { isValidUrl, isVideoUrl } from "../helpers/validate";
+import { isValidUrl, isVideoUrl, isGitHubConvertibleUrl, toGitHubRawUrl } from "../helpers/validate";
 
 export const urlActions: ActionDefinition[] = [
   {
@@ -45,6 +45,22 @@ export const urlActions: ActionDefinition[] = [
     validator: (clip) => isValidUrl(clip),
     run: async ({ clip }, { runShell }) => {
       await runShell(`google-chrome --incognito '${clip.trim()}'`);
+    },
+  },
+  {
+    name: "Copy GitHub Raw URL",
+    description: "Convert GitHub blob/gist link to raw GitHub usercontent URL",
+    icon: Icon.Link,
+    category: { type: "system", kind: "url" },
+    validator: (clip) => isGitHubConvertibleUrl(clip),
+    run: async ({ clip }, { copyToClipboard, notify }) => {
+      const rawUrl = toGitHubRawUrl(clip);
+      if (rawUrl) {
+        await copyToClipboard(rawUrl);
+        await notify("GitHub Raw URL Copied", rawUrl);
+      } else {
+        await notify("Convert Failed", "Could not convert to GitHub Raw URL");
+      }
     },
   },
   {
